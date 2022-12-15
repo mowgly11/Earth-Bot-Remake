@@ -8,26 +8,32 @@ const blacklistSchema = new mongoose.Schema({
 
     coins: {
         wallet: Number,
-        work: Number,
-        sm: Number,
-        loot: Number,
-        crime: Number,
-        slut: Number,
-        football: Number,
+        jobs: {
+            work: Number,
+            specialmission: Number,
+            loot: Number,
+            football: Number,
+        }
     },
 
     profile: {
-        likes: Number,
-        cooldown: Number,
-        title: String,
-        instagram: String,
-        twitter: String,
-        married: Boolean,
-        marriedWith: String,
-        marriedWithId: String,
-        marriageDate: Number,
-        badges: Object,
-        background: Object
+        likes: {
+            amount: Number,
+            cooldown: Number,
+        },
+        social: {
+            instagram: String,
+            twitter: String,
+            married: Boolean,
+            marriedWith: String,
+            marriedWithId: String,
+            marriageDate: Number,
+        },
+        profileCustomisation: {
+            title: String,
+            badges: Object,
+            background: Object
+        }
     }
 });
 
