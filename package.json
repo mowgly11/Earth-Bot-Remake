@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "canvas": "^2.10.2",
+    "discord.js": "^14.6.0",
+    "moment": "^2.29.4",
+    "mongoose": "^6.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "name": "earth-remake",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
