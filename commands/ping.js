@@ -1,67 +1,62 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ComponentType, ButtonBuilder } = require('discord.js');
+const {
+    SlashCommandBuilder,
+    EmbedBuilder,
+    ActionRowBuilder,
+    ComponentType,
+    ButtonBuilder
+} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("ping")
-        .setDescription("check the bot's connection speed"),
+        .setDescription("checks the bot's connection speed"),
 
     async execute(client, interaction) {
         await interaction.deferReply();
 
-        let embed = new EmbedBuilder()
+        let pingEmbed = new EmbedBuilder()
             .setTitle("Earth Bot Ping")
-            .setDescription(`<:blurplebot:922906134862508103> - My ping is: \`${parseInt(client.ws.ping)}ms\`\n\n<a:IconServerSecurity:908091372593086505> - Database Speed: \`1ms\`\n\n<a:IconSlowMod:908091008980488213> - Response Time: \`${Date.now() - interaction.createdTimestamp}ms\``)
+            .setDescription(`<:discordstagechannel:921550781994381313> - My ping is: 
+            \`${parseInt(client.ws.ping)}ms\`\n\n<a:IconServerSecurity:908091372593086505> - Database Speed: 
+            \`1ms\`\n\n<a:IconSlowMod:908091008980488213> - Response Time: 
+            \`${Date.now() - interaction.createdTimestamp}ms\``)
             .setColor(0x0099FF)
-        const filter = m => m.user.id === interaction.user.id;
 
         const collector = interaction.channel.createMessageComponentCollector({
-            filter,
+            filter: (m) => m.user.id === interaction.user.id,
             componentType: ComponentType.Button,
-            time: 30000
+            time: 1000 * 30
         });
 
-        const buttons = new ActionRowBuilder().addComponents(
+        let buttons = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setCustomId("refresh")
                 .setLabel("Refresh")
                 .setStyle(3)
         );
 
-        const buttonsD = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId("refresh")
-                .setLabel("Refresh")
-                .setDisabled(true)
-                .setStyle(3)
-        );
-
-        await interaction.editReply({
-            embeds: [embed],
+        const inter = await interaction.editReply({
+            embeds: [pingEmbed],
             components: [buttons]
-        }).then(async inter => {
-            collector.on("collect", async col => {
-                if (col.user.id !== interaction.user.id) return col.reply({
-                    content: "This button is not for you!", ephemeral: true
-                });
+        });
 
-                await col.deferUpdate();
+        collector.on("collect", async (collector) => {
+            await collector.deferUpdate();
 
-                let embedR = new EmbedBuilder()
-                    .setTitle("Earth Bot Ping")
-                    .setDescription(`<:blurplebot:922906134862508103> - My ping is: \`${client.ws.ping}ms\`\n\n<a:IconServerSecurity:908091372593086505> - Database Speed: \`1ms\``)
-                    .setColor(0x0099FF)
+            pingEmbed.setDescription(`<:discordstagechannel:921550781994381313> - My ping is: 
+                \`${client.ws.ping}ms\`\n\n<a:IconServerSecurity:908091372593086505> - Database Speed: 
+                \`1ms\``)
 
-                await inter.edit({
-                    embeds: [embedR]
-                });
+            await inter.edit({
+                embeds: [pingEmbed]
             });
+        });
 
-            setTimeout(() => {
-                let embedRE = new EmbedBuilder()
-                    .setDescription("This embed has expired")
-                    .setColor(0x0099FF)
-                inter.edit({ embeds: [embedRE], components: [buttonsD] });
-            }, 30000);
-        })
+        setTimeout(() => {
+            buttons.components[0].data.disabled = true;
+
+            inter.edit({ embeds: [pingEmbed.setDescription("This embed has expired")], components: [buttons] });
+        }, 30000);
+
     }
 }
