@@ -5,12 +5,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('user')
         .setDescription('Provides information about the user.')
-        .addUserOption(option =>
+        .addUserOption((option: any) =>
             option
                 .setName("target")
                 .setDescription("user you want to get info about")
         ),
-    async execute(client, interaction) {
+    async execute(client: any, interaction: any) {
         await interaction.deferReply();
         
         let target = interaction.options.getUser('target');
@@ -49,3 +49,5 @@ module.exports = {
         await interaction.editReply({ embeds: [response] });
     },
 };
+
+export {}

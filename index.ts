@@ -1,8 +1,4 @@
-"use strict"
-
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 1;
-
-const config = require('./config.json');
+let config = require('./config.json');
 const { Client,
     GatewayIntentBits,
     Collection
@@ -13,7 +9,7 @@ const { init } = require('./database/mongoose');
 
 init();
 
-const client = new Client({
+let client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers
@@ -25,7 +21,7 @@ module.exports = client;
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync(commandsPath).filter((file: any) => file.endsWith('.ts'));
 
 for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
@@ -38,15 +34,15 @@ for (const file of commandFiles) {
 }
 
 const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync(eventsPath).filter((file: any) => file.endsWith('.ts'));
 
 for (const file of eventFiles) {
     const filePath = path.join(eventsPath, file);
     const event = require(filePath);
     if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
+        client.once(event.name, (...args: any) => event.execute(...args));
     } else {
-        client.on(event.name, (...args) => event.execute(...args));
+        client.on(event.name, (...args: any) => event.execute(...args));
     }
 }
 

@@ -11,7 +11,7 @@ module.exports = {
         .setName("ping")
         .setDescription("checks the bot's connection speed"),
 
-    async execute(client, interaction) {
+    async execute(client: any, interaction: any) {
         await interaction.deferReply();
 
         let pingEmbed = new EmbedBuilder()
@@ -23,7 +23,7 @@ module.exports = {
             .setColor(0x0099FF)
 
         const collector = interaction.channel.createMessageComponentCollector({
-            filter: (m) => m.user.id === interaction.user.id,
+            filter: (m: any) => m.user.id === interaction.user.id,
             componentType: ComponentType.Button,
             time: 1000 * 30
         });
@@ -40,7 +40,7 @@ module.exports = {
             components: [buttons]
         });
 
-        collector.on("collect", async (collector) => {
+        collector.on("collect", async (collector: any) => {
             await collector.deferUpdate();
 
             pingEmbed.setDescription(`<:discordstagechannel:921550781994381313> - My ping is: 
@@ -60,3 +60,5 @@ module.exports = {
 
     }
 }
+
+export {}

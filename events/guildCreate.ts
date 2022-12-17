@@ -4,7 +4,7 @@ const config = require('../config.json');
 
 module.exports = {
     name: Events.GuildCreate,
-    async execute(guild) {
+    async execute(guild: any) {
         const joinChannel = client.channels.cache.get(config.configChannels.joinChannel);
         const embed = new EmbedBuilder()
             .setDescription(`**joined a new guild !**\n\n**Guild Name:** ${guild.name}\n members count: ${guild.memberCount}\nowned by : ${guild.ownerId}`)
@@ -16,3 +16,5 @@ module.exports = {
         });
     }
 }
+
+export {}

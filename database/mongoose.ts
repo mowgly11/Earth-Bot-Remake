@@ -13,8 +13,10 @@ module.exports = {
             console.log('[DATABASE] The bot has disconnected from the Database');
         });
 
-        mongoose.connection.on('err', (err) => {
+        mongoose.connection.on('err', (err: any) => {
             console.log('[DATABASE] an error just happens : ' + err);
         });
     }
 }
+
+export {}

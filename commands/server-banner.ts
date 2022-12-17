@@ -5,7 +5,7 @@ module.exports = {
         .setName("server-banner")
         .setDescription("display the current server's banner"),
 
-    async execute(client, interaction) {
+    async execute(client: any, interaction: any) {
         await interaction.deferReply();
 
         const banner = interaction.guild.bannerURL({
@@ -24,3 +24,5 @@ module.exports = {
         });
     }
 }
+
+export {}

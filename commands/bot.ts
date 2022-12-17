@@ -7,7 +7,7 @@ module.exports = {
         .setName("bot")
         .setDescription("shows the bot informations"),
 
-    async execute(client, interaction) {
+    async execute(client: any, interaction: any) {
         await interaction.deferReply();
 
         const sxy = client.users.cache.get(config.ownerId);
@@ -26,3 +26,5 @@ module.exports = {
         await interaction.followUp({ embeds: [botEmbed] });
     }
 }
+
+export {}

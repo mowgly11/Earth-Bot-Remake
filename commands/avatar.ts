@@ -5,13 +5,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("avatar")
         .setDescription("display a user avatar")
-        .addUserOption(option =>
+        .addUserOption((option: any) =>
             option
                 .setName("user")
                 .setDescription("the user you want to get his avatar")
         ),
 
-    async execute(client, interaction) {
+    async execute(client: any, interaction: any) {
         await interaction.deferReply();
 
         let target = interaction.options.getUser('user');
@@ -31,3 +31,5 @@ module.exports = {
         await interaction.editReply({ files: [attachment] });
     }
 }
+
+export {}
