@@ -3,7 +3,8 @@
     "canvas": "^2.10.2",
     "discord.js": "^14.6.0",
     "moment": "^2.29.4",
-    "mongoose": "^6.7.2"
+    "mongoose": "^6.7.2",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.16",
