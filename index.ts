@@ -21,9 +21,9 @@ module.exports = client;
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter((file: any) => file.endsWith('.ts'));
+const commandsFiles = fs.readdirSync(commandsPath).filter((file: any) => file.endsWith('.ts'));
 
-for (const file of commandFiles) {
+for (const file of commandsFiles) {
     const filePath = path.join(commandsPath, file);
 
     const command = require(filePath);
