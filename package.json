@@ -16,6 +16,7 @@
   "scripts": {
     "start": "nodemon index.ts"
   },
+  "lisence": "MIT",
   "keywords": [],
   "author": "",
   "license": "ISC",

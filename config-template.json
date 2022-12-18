@@ -1,0 +1,10 @@
+{
+	"token": "",
+    "clientId": "",
+    "mongoDbUrl": "",
+    "configChannels": {
+        "joinChannel": "",
+        "leaveChannel": ""
+    },
+    "ownerId": ""
+}
