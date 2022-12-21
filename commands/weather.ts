@@ -9,6 +9,7 @@ module.exports = {
             option
                 .setName("city")
                 .setDescription("the city you want to get it's weather states")
+                .setRequired(true)
         ),
 
     async execute(client: any, interaction: any) {

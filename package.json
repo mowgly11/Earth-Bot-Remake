@@ -15,7 +15,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.ts"
+    "start": "nodemon index.ts",
+    "deploy": "ts-node deploy-commands.ts"
   },
   "lisence": "MIT",
   "keywords": [],
