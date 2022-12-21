@@ -50,7 +50,9 @@ module.exports = {
                 ephemeral: true
             });
         } catch (err) {
-            return interaction.followUp({ content: ':x: **No result**', ephemeral: true });
+            return interaction.editReply({ content: ':x: **No result**', ephemeral: true });
         }
     }
 }
+
+export { }
