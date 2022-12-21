@@ -17,7 +17,7 @@ module.exports = {
 
         const url = `https://api.github.com/users/${name}`;
 
-        let response = await fetch(url).then((res: any) => res.json()).catch((err: any) => {
+        let response = await fetch(url).then((res: any) => res.json()).catch((err: Error) => {
             return interaction.editReply({ content: 'An Error Occured, Try Again.', ephemeral: true })
         });
 

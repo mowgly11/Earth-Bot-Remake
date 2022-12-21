@@ -1,5 +1,5 @@
 module.exports = {
-    toTimestamp: (strDate: any) => {
+    toTimestamp: (strDate: string) => {
         let datum = Date.parse(strDate);
         return datum / 1000;
     }

@@ -4,7 +4,7 @@ const fylesystem = require('node:fs');
 
 const commands = [];
 
-const commandsFiles = fylesystem.readdirSync('./commands').filter((file: any) => file.endsWith('.js'));
+const commandsFiles = fylesystem.readdirSync('./commands').filter((file: string) => file.endsWith('.ts'));
 
 for (const file of commandsFiles) {
     const command = require(`./commands/${file}`);

@@ -21,7 +21,7 @@ module.exports = client;
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
-const commandsFiles = fs.readdirSync(commandsPath).filter((file: any) => file.endsWith('.ts'));
+const commandsFiles = fs.readdirSync(commandsPath).filter((file: string) => file.endsWith('.ts'));
 
 for (const file of commandsFiles) {
     const filePath = path.join(commandsPath, file);
@@ -34,7 +34,7 @@ for (const file of commandsFiles) {
 }
 
 const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter((file: any) => file.endsWith('.ts'));
+const eventFiles = fs.readdirSync(eventsPath).filter((file: string) => file.endsWith('.ts'));
 
 for (const file of eventFiles) {
     const filePath = path.join(eventsPath, file);
