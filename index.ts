@@ -1,13 +1,14 @@
-let config = require('./config.json');
+const config = require('./config.json');
 const { Client,
     GatewayIntentBits,
     Collection
 } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-const { init } = require('./database/mongoose');
+const mongoose = require('mongoose');
+const { initMongoose } = require('./database/mongoose');
 
-init();
+initMongoose(mongoose);
 
 let client = new Client({
     intents: [

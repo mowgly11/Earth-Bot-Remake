@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
 const config = require('../config.json');
 
 module.exports = {
-    init: () => {
+    initMongoose: (mongoose: any) => {
         mongoose.connect(`${config.mongoDbUrl}`);
-        
+
         mongoose.connection.on('connected', () => {
             console.log('[DATABASE] The bot is Connected to the Database');
         });
@@ -19,4 +18,4 @@ module.exports = {
     }
 }
 
-export {}
+export { }

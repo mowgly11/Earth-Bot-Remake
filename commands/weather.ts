@@ -18,7 +18,7 @@ module.exports = {
         const args = interaction.options.getString("city");
 
         weather.find({
-            search: args.join(" "),
+            search: args,
             degreeType: 'C'
         }, async (error: Error, result: any) => {
 

@@ -13,20 +13,19 @@ module.exports = {
 
     async execute(client: any, interaction: any) {
         await interaction.deferReply();
-        
+
         const args = interaction.options.getString("question");
 
         const replies = ['Yeah lol', 'Sure', 'yeah', 'No.', '100% No !', 'Maybe', ':x:', ':white_check_mark:', 'Strictement Yes', 'No Way', 'That\'s a Hell YEAH', 'No f*cking way', 'No :)', '50% yes', 'Not sure', 'I\'m busy right now do not distrub me', 'HAHAHAHAHAHA YEAH', 'ask your mom'];
 
         const result = Math.floor(Math.random() * replies.length);
-        const question = args.join(' ');
 
         const embed = new EmbedBuilder()
             .setColor(0x0099FF)
             .addFields([
                 {
                     name: "Question:",
-                    value: `${question}`
+                    value: `${args}`
                 },
                 {
                     name: 'Answer:',
