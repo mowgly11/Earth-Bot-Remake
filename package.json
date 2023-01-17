@@ -5,6 +5,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.7.2",
     "node-fetch": "^2.6.1",
+    "numeral": "^2.0.6",
     "weather-js": "^2.0.0"
   },
   "devDependencies": {

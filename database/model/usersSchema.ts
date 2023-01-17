@@ -30,13 +30,16 @@ const blacklistSchema = new mongoose.Schema({
             marriageDate: Number,
         },
         profileCustomisation: {
-            title: String,
+            title: {
+                type: String,
+                max: 64
+            },
             badges: Object,
             background: Object
         }
     }
 });
 
-module.exports = mongoose.model("Blacklist", blacklistSchema);
+module.exports = mongoose.model("users-list", blacklistSchema);
 
 export {}
