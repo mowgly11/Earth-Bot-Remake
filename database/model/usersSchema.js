@@ -22,9 +22,18 @@ const blacklistSchema = new mongoose.Schema({
             cooldown: Number,
         },
         social: {
-            instagram: String,
-            twitter: String,
-            married: Boolean,
+            instagram: {
+                type: String,
+                max: 20
+            },
+            twitter: {
+                type: String,
+                max: 15
+            },
+            married: {
+                type: Boolean,
+                default: false
+            },
             marriedWith: String,
             marriedWithId: String,
             marriageDate: Number,
@@ -32,7 +41,7 @@ const blacklistSchema = new mongoose.Schema({
         profileCustomisation: {
             title: {
                 type: String,
-                max: 64
+                max: 80
             },
             badges: Object,
             background: Object

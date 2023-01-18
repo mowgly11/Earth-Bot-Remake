@@ -77,17 +77,14 @@ module.exports = {
             console.error(error);
         }
 
-        process.on("uncaughtException", (err) => {
-            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        process.on("uncaughtException", (err, origin) => {
+            errorChannel.send(`**New Error**: ${err}\n**Origin**: ${origin}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
         });
-        process.on("unhandledRejection", (err) => {
-            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        process.on("unhandledRejection", (err, promise) => {
+            errorChannel.send(`**New Error**: ${err}\n**Promise**: ${promise}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
         });
-        process.on("uncaughtExceptionMonitor", (err) => {
-            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
-        });
-        process.on("multipleResolves", (err) => {
-            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        process.on("uncaughtExceptionMonitor", (err, origin) => {
+            errorChannel.send(`**New Error**: ${err}\n**Origin**: ${origin}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
         });
     },
 };
