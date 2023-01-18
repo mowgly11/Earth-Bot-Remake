@@ -4,20 +4,20 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("github")
         .setDescription("displays a user github profile")
-        .addStringOption((option: any) =>
+        .addStringOption((option) =>
             option
                 .setName("username")
                 .setDescription("the username you want to get its github profile")
                 .setRequired(true)
         ),
 
-    async execute(client: any, interaction: any) {
+    async execute(client, interaction) {
         await interaction.deferReply({ ephemeral: true });
         const name = interaction.options.getString("username");
 
         const url = `https://api.github.com/users/${name}`;
 
-        let response = await fetch(url).then((res: any) => res.json()).catch((err: Error) => {
+        let response = await fetch(url).then((res) => res.json()).catch((err) => {
             return interaction.editReply({ content: 'An Error Occured, Try Again.', ephemeral: true })
         });
 
@@ -55,4 +55,3 @@ module.exports = {
     }
 }
 
-export { }

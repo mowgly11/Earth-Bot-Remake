@@ -1,10 +1,10 @@
 const { Events } = require('discord.js');
 const client = require('../index');
-const User = require('../database/model/usersSchema.ts');
+const User = require('../database/model/usersSchema');
 
 module.exports = {
     name: Events.InteractionCreate,
-    async execute(interaction: any) {
+    async execute(interaction) {
         if (!interaction.isChatInputCommand()) return;
         
         const earthServer = client.guilds.cache.get("886987831141101649");
@@ -76,7 +76,18 @@ module.exports = {
             console.error(`Error executing ${interaction.commandName}`);
             console.error(error);
         }
+
+        process.on("uncaughtException", (err) => {
+            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        });
+        process.on("unhandledRejection", (err) => {
+            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        });
+        process.on("uncaughtExceptionMonitor", (err) => {
+            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        });
+        process.on("multipleResolves", (err) => {
+            errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
+        });
     },
 };
-
-export { }

@@ -6,7 +6,7 @@ module.exports = {
     .setDescription("display the current server's icon"),
 
 
-  async execute(client: any, interaction: any) {
+  async execute(client, interaction) {
     await interaction.deferReply();
 
     const replies = [
@@ -32,4 +32,3 @@ module.exports = {
   }
 }
 
-export {}

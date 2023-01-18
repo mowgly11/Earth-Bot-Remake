@@ -8,20 +8,20 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("wikipedia")
     .setDescription("searches in wikipedia for a choosen subject")
-    .addStringOption((option: any) =>
+    .addStringOption((option) =>
       option
         .setName("search")
         .setDescription("the subject you want to search about")
         .setRequired(true)
     ),
 
-  async execute(client: any, interaction: any) {
+  async execute(client, interaction) {
     await interaction.deferReply({ ephemeral: true });
 
     const args = interaction.options.getString("search");
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(args)}`
 
-    let response = await fetch(url).then((res: any) => res.json()).catch((err: any) => {
+    let response = await fetch(url).then((res) => res.json()).catch((err) => {
       return interaction.editReply({ content: 'An Error Occured, Try Again.', ephemeral: true });
     });
 
@@ -54,5 +54,3 @@ module.exports = {
     await interaction.editReply({ embeds: [responseEmbed], ephemeral: true })
   }
 }
-
-export { }

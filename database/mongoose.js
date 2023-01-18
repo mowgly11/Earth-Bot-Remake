@@ -1,7 +1,7 @@
 const config = require('../config.json');
 
 module.exports = {
-    initMongoose: (mongoose: any) => {
+    initMongoose: (mongoose) => {
         mongoose.connect(`${config.mongoDbUrl}`);
 
         mongoose.connection.on('connected', () => {
@@ -12,10 +12,8 @@ module.exports = {
             console.log('[DATABASE] The bot has disconnected from the Database');
         });
 
-        mongoose.connection.on('err', (err: any) => {
+        mongoose.connection.on('err', (err) => {
             console.log('[DATABASE] an error just happens : ' + err);
         });
     }
 }
-
-export { }

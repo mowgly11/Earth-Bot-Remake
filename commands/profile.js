@@ -3,7 +3,7 @@ const {
   AttachmentBuilder,
   SlashCommandBuilder
 } = require('discord.js')
-const User = require('../database/model/usersSchema.ts');
+const User = require('../database/model/usersSchema.js');
 const Canvas = require('canvas');
 const numeral = require('numeral');
 
@@ -11,13 +11,13 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("profile")
     .setDescription("display a user profile")
-    .addUserOption((option: any) =>
+    .addUserOption((option) =>
       option
         .setName("user")
         .setDescription("the user you want to get his profile")
     ),
 
-  async execute(client: any, interaction: any) {
+  async execute(client, interaction) {
     let user = interaction.options.getUser("user");
     if (!user) user = interaction.user;
     if (user.bot) return interaction.reply({ content: "Bots Can't Have Profiles.", ephemeral: true });
@@ -36,11 +36,11 @@ module.exports = {
     if (name.length >= 11) {
       name = name.substring(0, 10) + '...';
     }
-    
+
     let status = data.profile.profileCustomisation.title;
 
-    if(status.length >= 20) status = status.substring(0, 20) + '\n' + status.substring(20, 40) + '\n' + status.substring(40, 60) + '\n' + status.substring(60, 80);
-    
+    if (status.length >= 20) status = status.substring(0, 20) + '\n' + status.substring(20, 40) + '\n' + status.substring(40, 60) + '\n' + status.substring(60, 80);
+
 
     const canvas = Canvas.createCanvas(500, 500);
 
@@ -81,10 +81,15 @@ module.exports = {
     ctx.textAlign = "center";
     ctx.fillText(numeral(likes).format('0.0a'), 100, 350); // X=limn Y= lfo9
     ctx.fillText(numeral(coins).format('0.0a'), 100, 260); // X=limn Y= lfo9
+    
+    ctx.beginPath();
+    ctx.arc(87, 82, 70.5, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.clip();
 
     const avatar = await Canvas.loadImage(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`);
 
-    ctx.drawImage(avatar, 16, 16, 137, 135) // X=limn  Y=lfo9
+    ctx.drawImage(avatar, 17, 13, 140, 140) // X=limn  Y=lfo9
 
     const attachment = new AttachmentBuilder(canvas.toBuffer(), { name: 'profile.png' });
 

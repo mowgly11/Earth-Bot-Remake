@@ -5,14 +5,14 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("weather")
         .setDescription("display the weather in a provided city")
-        .addStringOption((option: any) =>
+        .addStringOption((option) =>
             option
                 .setName("city")
                 .setDescription("the city you want to get it's weather states")
                 .setRequired(true)
         ),
 
-    async execute(client: any, interaction: any) {
+    async execute(client, interaction) {
         await interaction.deferReply({ ephemeral: true });
 
         const args = interaction.options.getString("city");
@@ -20,7 +20,7 @@ module.exports = {
         weather.find({
             search: args,
             degreeType: 'C'
-        }, async (error: Error, result: any) => {
+        }, async (error, result) => {
 
             if (error) return interaction.editReply({ content: `${error}`, ephemeral: true });
 
@@ -66,5 +66,3 @@ module.exports = {
         });
     }
 }
-
-export { }
