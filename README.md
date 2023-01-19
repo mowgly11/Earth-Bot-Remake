@@ -8,3 +8,4 @@ you can add it from here: **https://top.gg/bot/856696786550521908**
 ### Technologies:
   * `Discord.js`: https://www.npmjs.com/package/discord.js
   * `MongoDB/Mongoose`: https://www.npmjs.com/package/mongoose
+  * `Adobe Photoshop`
