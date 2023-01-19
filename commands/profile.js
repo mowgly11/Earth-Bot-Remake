@@ -52,7 +52,7 @@ module.exports = {
     const instagram = data.profile.social.instagram;
     const twitter = data.profile.social.twitter;
     const likes = data.profile.likes.amount;
-    const coins = data.coins.wallet;
+    const coins = data.economy.wallet;
     const marriedWith = data.profile.social.marriedWith;
 
     ctx.fillStyle = "#ffffff"

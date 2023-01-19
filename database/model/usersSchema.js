@@ -6,14 +6,15 @@ const blacklistSchema = new mongoose.Schema({
         blacklisted: Boolean
     },
 
-    coins: {
+    economy: {
         wallet: Number,
         jobs: {
             work: Number,
             specialmission: Number,
             loot: Number,
             football: Number,
-        }
+        },
+        items: Array
     },
 
     profile: {

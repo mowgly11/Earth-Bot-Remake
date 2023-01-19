@@ -29,14 +29,15 @@ module.exports = {
                         id: user.id,
                         blacklisted: false
                     },
-                    coins: {
+                    economy: {
                         wallet: 0,
                         jobs: {
                             work: 0,
                             specialmission: 0,
                             loot: 0,
                             football: 0,
-                        }
+                        },
+                        items: []
                     },
     
                     profile: {
