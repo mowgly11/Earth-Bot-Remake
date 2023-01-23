@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const User = require('../database/model/usersSchema');
+const config = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,6 +25,6 @@ module.exports = {
         
         if(!data) return interaction.reply({ content: "This user doesn't have a wallet yet." });
 
-        await interaction.editReply(`**${user.username}'s** Wallet has **${data.economy.wallet}** <:earthcoin:1065401906236751912>`)
+        await interaction.editReply(`**${user.username}'s** Wallet has **${data.economy.wallet}** ${config.coinEmoji}`)
     }
 }

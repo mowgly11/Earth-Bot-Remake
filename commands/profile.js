@@ -28,7 +28,6 @@ module.exports = {
 
     if (!data) return interaction.reply("Looks like the user doesn't have a profile..");
 
-
     await interaction.deferReply();
 
     let name = user.username;
