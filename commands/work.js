@@ -2,7 +2,7 @@ const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed
 const User = require('../database/model/usersSchema');
 const config = require('../config.json');
 
-let jobsList = ["Software Development", "Pizza Delivery", "Night Protection", "Hotel Reception", "McDonalds", "Security", "Mining"]
+let jobsList = ["Software Development", "Baby Sitting", "Photography", "Construction", "Taxi Driving", "Pizza Delivery", "Night Protection", "Hotel Reception", "McDonalds", "Security", "Google", "Discord", "Discord Moderation", "Mining", "A SECRET JOB!!!"]
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ module.exports = {
 
         await interaction.deferReply();
 
-        const randomIncome = Math.floor(Math.random() * (1000 - 300)) + 300;
+        let randomIncome = Math.floor(Math.random() * (1000 - 300)) + 300;
 
         let jobs = [];
 
@@ -67,8 +67,15 @@ module.exports = {
         data.economy.jobs.work = Date.now() + 300000;
         await data.save();
 
-        collector.on("collect", async (collector) => {
-            await collector.deferUpdate();
+        collector.on("collect", async (col) => {
+            await col.deferUpdate();
+
+            let message = `You Worked at **${col.customId}** and you Earned **${randomIncome}** ${config.coinEmoji}`
+
+            if(col.customId === "A SECRET JOB!!!") {
+                randomIncome = 2000;
+                message = `**:tada: Congrats!** You Worked at **${col.customId}** and you Earned **${randomIncome}** ${config.coinEmoji}`
+            }
 
             data.economy.wallet += randomIncome;
 
@@ -79,17 +86,18 @@ module.exports = {
             }
 
             await reply.edit({
-                embeds: [ChoiceEmbed.setDescription(`You Worked at **${collector.customId}** and you Earned **${randomIncome}** ${config.coinEmoji}`)],
+                embeds: [ChoiceEmbed.setDescription(`${message}`)],
                 components: [Buttons]
             });
+
+            collector.stop();
         });
 
         collector.on('end', () => {
             for(i = 0; i < 3; i++) {
                 Buttons.components[i].data.disabled = true;
             }
-
-            reply.edit({ embeds: [ChoiceEmbed.setDescription("This embed has expired")], components: [Buttons] });
+            reply.edit({ components: [Buttons] });
         });
     }
 }

@@ -52,12 +52,11 @@ module.exports = {
             });
         });
 
-        setTimeout(() => {
+        collector.on('end', () => {            
             buttons.components[0].data.disabled = true;
 
-            inter.edit({ embeds: [pingEmbed.setDescription("This embed has expired")], components: [buttons] });
-        }, 30000);
-
+            inter.edit({ components: [buttons] });
+        })
     }
 }
 
