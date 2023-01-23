@@ -1,12 +1,37 @@
 const config = require('./config.json');
 const { Client,
     GatewayIntentBits,
-    Collection
+    Collection,
+    REST, 
+    Routes
 } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 const mongoose = require('mongoose');
 const { initMongoose } = require('./database/mongoose');
+
+const commands = [];
+
+const commandsFiles_1 = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'));
+
+for (const file of commandsFiles_1) {
+    const command = require(`./commands/${file}`);
+    commands.push(command.data.toJSON());
+}
+
+const rest = new REST({ version: '10' }).setToken(config.token);
+
+(async () => {
+    try {
+        const data = await rest.put(
+            Routes.applicationCommands(config.clientId),
+            { body: commands },
+        );
+        console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+    } catch (error) {
+        console.error(error);
+    }
+})();
 
 initMongoose(mongoose);
 
@@ -46,6 +71,7 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args));
     }
 }
+
 
 client.login(config.token);
 
