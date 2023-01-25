@@ -28,7 +28,7 @@ module.exports = {
 
         if (cooldown < 0) return interaction.reply({ content: `You need to wait **${parseInt(-1 * cooldown / 1000)}s** to use the commands again`, ephemeral: true });
 
-        if(data.economy.wallet < bid) return interaction.reply({ content: `You don't even have that amount.`, ephemeral: true });
+        if (data.economy.wallet < bid) return interaction.reply({ content: `You don't even have that amount.`, ephemeral: true });
 
         if (bid <= 0 || bid > 2000) return interaction.reply({ content: 'You can\'t bid with more than **2000** or with negative amounts.', ephemeral: true })
 
@@ -40,9 +40,18 @@ module.exports = {
 
         const baseImage = await Canvas.loadImage('assests/initial.png');
         const ball = await Canvas.loadImage('assests/football.png');
-        const left = await Canvas.loadImage('assests/left.png');
-        const right = await Canvas.loadImage('assests/right.png');
-        const middle = await Canvas.loadImage('assests/middle.png');
+        const left = {
+            direction: 'left',
+            img: await Canvas.loadImage('assests/left.png')
+        };
+        const right = {
+            direction: 'right',
+            img: await Canvas.loadImage('assests/right.png')
+        };
+        const middle = {
+            direction: 'middle',
+            img: await Canvas.loadImage('assests/middle.png')
+        };
 
         ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
 
@@ -93,47 +102,49 @@ module.exports = {
 
             let message = "";
 
-            const canvas2 = Canvas.createCanvas(500, 500);
-
-            const ctx2 = canvas2.getContext('2d');
+            switch (goalKeeperGuess) {
+                case 'left':
+                    ctx.drawImage(left.img, 0, 0, canvas.width, canvas.height);
+                    break;
+                case 'right':
+                    ctx.drawImage(right.img, 0, 0, canvas.width, canvas.height);
+                    break;
+                case 'middle':
+                    ctx.drawImage(middle.img, 0, 0, canvas.width, canvas.height);
+                    break;
+            }
 
             if (col.customId === goalKeeperGuess) {
                 switch (col.customId) {
                     case 'left':
-                        ctx2.drawImage(left, 0, 0, canvas2.width, canvas2.height);
-                        ctx2.drawImage(ball, 100, 200, 20, 20);
-                        message = `Bad Guess, You shooted **left** but the goalkeeper saved it. You Lost **${bid}** ${config.coinEmoji}`;
+                        ctx.drawImage(ball, 120, 160, 20, 20);
+                        message = `Bad Guess, You shooted **left** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
                         break;
                     case 'middle':
-                        ctx2.drawImage(middle, 0, 0, canvas2.width, canvas2.height);
-                        ctx2.drawImage(ball, 235, 200, 20, 20);
-                        message = `Bad Guess, You shooted in the **middle** but the goalkeeper saved it. You Lost **${bid}** ${config.coinEmoji}`;
+                        ctx.drawImage(ball, 235, 180, 20, 20);
+                        message = `Bad Guess, You shooted in the **middle** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
                         break;
                     case 'right':
-                        ctx2.drawImage(middle, 0, 0, canvas2.width, canvas2.height);
-                        ctx2.drawImage(ball, 380, 200, 20, 20);
-                        message = `Bad Guess, You shooted **right** but the goalkeeper saved it. You Lost **${bid}** ${config.coinEmoji}`;
+                        ctx.drawImage(ball, 360, 190, 20, 20);
+                        message = `Bad Guess, You shooted **right** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
                         break;
                 }
-                
-                data.economy.wallet += bid * 2;
+
+                data.economy.wallet += bid * 1.5;
                 await data.save();
-            } else {
+            } else if (col.customId !== goalKeeperGuess) {
                 switch (col.customId) {
                     case 'left':
-                        ctx2.drawImage(right, 0, 0, canvas2.width, canvas2.height);
-                        ctx2.drawImage(ball, 100, 200, 20, 20);
-                        message = `Good Guess, You shooted **left** and the goalkeeper didn't saved it. You won **${bid * 2}** ${config.coinEmoji}`;
+                        ctx.drawImage(ball, 100, 200, 20, 20);
+                        message = `Good Guess, You shooted **left** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${bid * 1.5}** ${config.coinEmoji}`;
                         break;
                     case 'middle':
-                        ctx2.drawImage(left, 0, 0, canvas2.width, canvas2.height);
-                        ctx2.drawImage(ball, 250, 200, 20, 20);
-                        message = `Good Guess, You shooted in **the middle** and the goalkeeper didn't saved it. You won **${bid * 2}** ${config.coinEmoji}`;
+                        ctx.drawImage(ball, 250, 180, 20, 20);
+                        message = `Good Guess, You shooted in **the middle** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${bid * 1.5}** ${config.coinEmoji}`;
                         break;
                     case 'right':
-                        ctx2.drawImage(middle, 0, 0, canvas2.width, canvas2.height);
-                        ctx2.drawImage(ball, 380, 200, 20, 20);
-                        message = `Good Guess, You shooted **right** and the goalkeeper didn't saved it. You won **${bid * 2}** ${config.coinEmoji}`;
+                        ctx.drawImage(ball, 360, 190, 20, 20);
+                        message = `Good Guess, You shooted **right** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${bid * 1.5}** ${config.coinEmoji}`;
                         break;
                 }
             }
@@ -142,10 +153,10 @@ module.exports = {
                 Buttons.components[i].data.disabled = true;
             }
 
-            const imageEdited = new AttachmentBuilder(canvas2.toBuffer(), { name: 'penalty2.png' });
+            const imageEdited = new AttachmentBuilder(canvas.toBuffer(), { name: 'penalty.png' });
 
             ChoiceEmbed
-                .setImage('attachment://penalty2.png')
+                .setImage('attachment://penalty.png')
                 .setDescription(`${message}`);
 
             await reply.edit({ embeds: [ChoiceEmbed], files: [imageEdited], components: [Buttons] })
