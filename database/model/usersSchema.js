@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const blacklistSchema = new mongoose.Schema({
     user: {
+        username: String,
+        discriminator: String,
         id: String,
         blacklisted: Boolean
     },

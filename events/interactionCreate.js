@@ -10,7 +10,6 @@ module.exports = {
         const earthServer = client.guilds.cache.get("886987831141101649");
         const errorChannel = earthServer.channels.cache.get("899582303221743666");
         
-
         const command = interaction.client.commands.get(interaction.commandName);
 
         if (!command) return console.error(`No command matching ${interaction.commandName} was found.`);
@@ -26,6 +25,8 @@ module.exports = {
             if (!data) {
                 data = await User.create({
                     user: {
+                        username: user.username,
+                        discriminator: user.discriminator,
                         id: user.id,
                         blacklisted: false
                     },
@@ -60,9 +61,12 @@ module.exports = {
                         }
                     }
                 });
-
-                await data.save();
             }
+
+            if(data && data.user.username !== user.username) data.user.username = user.username;
+            if(data && data.user.discriminator !== user.discriminator) data.user.discriminator = user.discriminator;
+
+            await data.save();
         } catch(err) {
             errorChannel.send(`**New Error**: ${err}\n\nFrom: ${interaction.guild.id} (${interaction.guild.name})\nBy: ${interaction.user.id}`)
             return interaction.reply({

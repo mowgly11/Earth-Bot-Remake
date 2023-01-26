@@ -30,7 +30,7 @@ module.exports = {
 
         if (data.economy.wallet < bid) return interaction.reply({ content: `You don't even have that amount.`, ephemeral: true });
 
-        if (bid <= 0 || bid > 2000) return interaction.reply({ content: 'You can\'t bid with more than **2000** or with negative amounts.', ephemeral: true })
+        if (bid <= 0 || bid > 5000) return interaction.reply({ content: 'You can\'t bid with more than **5000** or with negative amounts.', ephemeral: true })
 
         await interaction.deferReply();
 
@@ -40,25 +40,17 @@ module.exports = {
 
         const baseImage = await Canvas.loadImage('assests/initial.png');
         const ball = await Canvas.loadImage('assests/football.png');
-        const left = {
-            direction: 'left',
-            img: await Canvas.loadImage('assests/left.png')
-        };
-        const right = {
-            direction: 'right',
-            img: await Canvas.loadImage('assests/right.png')
-        };
-        const middle = {
-            direction: 'middle',
-            img: await Canvas.loadImage('assests/middle.png')
-        };
+        const left = await Canvas.loadImage('assests/left.png')
+        const right = await Canvas.loadImage('assests/right.png')
+        const middle = await Canvas.loadImage('assests/middle.png')
+
 
         ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
 
         const collector = interaction.channel.createMessageComponentCollector({
             filter: (m) => m.user.id === interaction.user.id,
             componentType: ComponentType.Button,
-            time: 1000 * 60
+            time: 1000 * 45
         });
 
         let goalKeeperGuesses = ['left', 'middle', 'right'];
@@ -92,7 +84,7 @@ module.exports = {
 
         const reply = await interaction.editReply({ embeds: [ChoiceEmbed], components: [Buttons], files: [image] });
 
-        data.economy.jobs.football = Date.now() + 0;
+        data.economy.jobs.football = Date.now() + 45000;
         data.economy.wallet -= bid;
 
         await data.save();
@@ -104,13 +96,13 @@ module.exports = {
 
             switch (goalKeeperGuess) {
                 case 'left':
-                    ctx.drawImage(left.img, 0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(left, 0, 0, canvas.width, canvas.height);
                     break;
                 case 'right':
-                    ctx.drawImage(right.img, 0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(right, 0, 0, canvas.width, canvas.height);
                     break;
                 case 'middle':
-                    ctx.drawImage(middle.img, 0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(middle, 0, 0, canvas.width, canvas.height);
                     break;
             }
 
@@ -130,21 +122,24 @@ module.exports = {
                         break;
                 }
 
-                data.economy.wallet += bid * 1.5;
-                await data.save();
             } else if (col.customId !== goalKeeperGuess) {
+                const won = parseInt(bid * 1.5);
+                data.economy.wallet += won;
+
+                await data.save();
+
                 switch (col.customId) {
                     case 'left':
                         ctx.drawImage(ball, 100, 200, 20, 20);
-                        message = `Good Guess, You shooted **left** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${bid * 1.5}** ${config.coinEmoji}`;
+                        message = `Good Guess, You shooted **left** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
                         break;
                     case 'middle':
                         ctx.drawImage(ball, 250, 180, 20, 20);
-                        message = `Good Guess, You shooted in **the middle** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${bid * 1.5}** ${config.coinEmoji}`;
+                        message = `Good Guess, You shooted in **the middle** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
                         break;
                     case 'right':
                         ctx.drawImage(ball, 360, 190, 20, 20);
-                        message = `Good Guess, You shooted **right** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${bid * 1.5}** ${config.coinEmoji}`;
+                        message = `Good Guess, You shooted **right** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
                         break;
                 }
             }
