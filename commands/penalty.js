@@ -50,7 +50,7 @@ module.exports = {
         const collector = interaction.channel.createMessageComponentCollector({
             filter: (m) => m.user.id === interaction.user.id,
             componentType: ComponentType.Button,
-            time: 1000 * 45
+            time: 1000 * 40
         });
 
         let goalKeeperGuesses = ['left', 'middle', 'right'];
@@ -106,46 +106,27 @@ module.exports = {
                     break;
             }
 
-            if (col.customId === goalKeeperGuess) {
-                switch (col.customId) {
-                    case 'left':
-                        ctx.drawImage(ball, 120, 160, 20, 20);
-                        message = `Bad Guess, You shooted **left** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
-                        break;
-                    case 'middle':
-                        ctx.drawImage(ball, 235, 180, 20, 20);
-                        message = `Bad Guess, You shooted in the **middle** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
-                        break;
-                    case 'right':
-                        ctx.drawImage(ball, 360, 190, 20, 20);
-                        message = `Bad Guess, You shooted **right** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
-                        break;
-                }
+            switch (col.customId) {
+                case 'left':
+                    ctx.drawImage(ball, 120, 160, 20, 20);
+                    break;
+                case 'middle':
+                    ctx.drawImage(ball, 235, 180, 20, 20);
+                    break;
+                case 'right':
+                    ctx.drawImage(ball, 360, 190, 20, 20);
+                    break;
+            }
 
-            } else if (col.customId !== goalKeeperGuess) {
+            if (col.customId === goalKeeperGuess) message = `Bad Guess, You shooted **${col.customId}** and the goalkeeper guessed **${goalKeeperGuess}** You Lost **${bid}** ${config.coinEmoji}`;
+
+            else {
                 const won = parseInt(bid * 1.5);
                 data.economy.wallet += won;
 
                 await data.save();
 
-                switch (col.customId) {
-                    case 'left':
-                        ctx.drawImage(ball, 100, 200, 20, 20);
-                        message = `Good Guess, You shooted **left** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
-                        break;
-                    case 'middle':
-                        ctx.drawImage(ball, 250, 180, 20, 20);
-                        message = `Good Guess, You shooted in **the middle** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
-                        break;
-                    case 'right':
-                        ctx.drawImage(ball, 360, 190, 20, 20);
-                        message = `Good Guess, You shooted **right** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
-                        break;
-                }
-            }
-
-            for (i = 0; i < 3; i++) {
-                Buttons.components[i].data.disabled = true;
+                message = `Good Guess, You shooted **${col.customId}** but the goalkeeper guessed **${goalKeeperGuess}**. You won **${won}** ${config.coinEmoji}`;
             }
 
             const imageEdited = new AttachmentBuilder(canvas.toBuffer(), { name: 'penalty.png' });
@@ -154,8 +135,10 @@ module.exports = {
                 .setImage('attachment://penalty.png')
                 .setDescription(`${message}`);
 
-            await reply.edit({ embeds: [ChoiceEmbed], files: [imageEdited], components: [Buttons] })
-
+                
+                
+            await reply.edit({ embeds: [ChoiceEmbed], files: [imageEdited], components: [Buttons] });
+            
             collector.stop();
         });
 
