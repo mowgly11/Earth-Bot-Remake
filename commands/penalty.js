@@ -135,10 +135,8 @@ module.exports = {
                 .setImage('attachment://penalty.png')
                 .setDescription(`${message}`);
 
-                
-                
             await reply.edit({ embeds: [ChoiceEmbed], files: [imageEdited], components: [Buttons] });
-            
+
             collector.stop();
         });
 
