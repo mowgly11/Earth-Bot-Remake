@@ -2,7 +2,7 @@ const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed
 const User = require('../database/model/usersSchema');
 const config = require('../config.json');
 
-let missionsList = [""]
+let missionsList = ["Save A Hostage", "Collect A Package", "Rob A Store", ]
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,11 +25,13 @@ module.exports = {
         await interaction.deferReply();
 
         let randomIncome = Math.floor(Math.random() * (2000 - 700)) + 700;
+        let randomLoseIncome = Math.floor(Math.random() * (1000 - 500)) + 500;
+        let chance = Math.floor(Math.random() * 10) + 1;
 
         let missions = [];
 
         while (missions.length < 3) {
-            let selectedJob = jobsList[Math.floor(Math.random() * jobsList.length)]
+            let selectedJob = missionsList[Math.floor(Math.random() * missionsList.length)]
             if (missions.indexOf(selectedJob) === -1) missions.push(selectedJob);
         }
 
@@ -58,8 +60,8 @@ module.exports = {
 
         let ChoiceEmbed = new EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle("Available missions")
-            .setDescription("Choose A Job From The List Down Bellow")
+            .setTitle("Available Missions")
+            .setDescription("Choose A Mission From The List Down Bellow")
             .setFooter({ text: "This Embed will stay valid for 60 seconds" })
 
         const reply = await interaction.editReply({ embeds: [ChoiceEmbed], components: [Buttons] });
@@ -70,20 +72,19 @@ module.exports = {
         collector.on("collect", async (col) => {
             await col.deferUpdate();
 
-            let message = `You specialmissioned at **${col.customId}** and you Earned **${randomIncome}** ${config.coinEmoji}`
+            let message = ``;
 
-            if (col.customId === "A SECRET JOB!!!") {
-                randomIncome = 2000;
-                message = `**:tada: Congrats!** You specialmissioned at **${col.customId}** and you Earned **${randomIncome}** ${config.coinEmoji}`
+            if(chance >= 0 && chance <= 5) {
+                message = `You Tried to **${col.customId}** But You Lost **${randomLoseIncome}** ${config.coinEmoji}`
+                ChoiceEmbed.setColor('Red');
+                data.economy.wallet -= randomLoseIncome;
+            } else {
+                message = `You Tried to **${col.customId}** and You Succeded! You Earned **${randomIncome}** ${config.coinEmoji}`
+                ChoiceEmbed.setColor('Green');
+                data.economy.wallet += randomIncome;
             }
-
-            data.economy.wallet += randomIncome;
 
             await data.save();
-
-            for (i = 0; i < 3; i++) {
-                Buttons.components[i].data.disabled = true;
-            }
 
             await reply.edit({
                 embeds: [ChoiceEmbed.setDescription(`${message}`)],
