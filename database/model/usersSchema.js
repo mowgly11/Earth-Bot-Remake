@@ -14,6 +14,7 @@ const blacklistSchema = new mongoose.Schema({
             work: Number,
             specialmission: Number,
             loot: Number,
+            daily: Number,
             football: Number,
         },
         items: Array

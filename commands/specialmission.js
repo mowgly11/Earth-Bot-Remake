@@ -2,7 +2,7 @@ const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed
 const User = require('../database/model/usersSchema');
 const config = require('../config.json');
 
-let missionsList = ["Fight ", "Sell Illegals", "Rob A Store", ""]
+let missionsList = ["Rob A Bank", "Sell Illegals", "Rob A Store", "Trade Weapons", "Contribute On A Street Fight", "Hack ATM's", "Rob Houses"]
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ module.exports = {
 
         await interaction.deferReply();
 
-        let randomIncome = Math.floor(Math.random() * (2000 - 700)) + 700;
+        let randomIncome = Math.floor(Math.random() * (2000 - 1000)) + 1000;
         let randomLoseIncome = Math.floor(Math.random() * (1000 - 500)) + 500;
         let chance = Math.floor(Math.random() * 10) + 1;
 

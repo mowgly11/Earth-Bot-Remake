@@ -86,7 +86,7 @@ module.exports = {
             }
 
             await reply.edit({
-                embeds: [ChoiceEmbed.setDescription(`${message}`)],
+                embeds: [ChoiceEmbed.setDescription(`${message}`).setColor("Green")],
                 components: [Buttons]
             });
 
