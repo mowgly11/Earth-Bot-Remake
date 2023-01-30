@@ -2,7 +2,7 @@ const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed
 const User = require('../database/model/usersSchema');
 const config = require('../config.json');
 
-let missionsList = ["Save A Hostage", "Collect A Package", "Rob A Store", ]
+let missionsList = ["Fight ", "Sell Illegals", "Rob A Store", ""]
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -74,7 +74,7 @@ module.exports = {
 
             let message = ``;
 
-            if(chance >= 0 && chance <= 5) {
+            if(chance >= 0 && chance <= 3) {
                 message = `You Tried to **${col.customId}** But You Lost **${randomLoseIncome}** ${config.coinEmoji}`
                 ChoiceEmbed.setColor('Red');
                 data.economy.wallet -= randomLoseIncome;
