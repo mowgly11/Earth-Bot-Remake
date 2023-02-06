@@ -12,7 +12,7 @@ const blacklistSchema = new mongoose.Schema({
         wallet: Number,
         jobs: {
             work: Number,
-            specialmission: Number,
+            crime: Number,
             loot: Number,
             daily: Number,
             football: Number,

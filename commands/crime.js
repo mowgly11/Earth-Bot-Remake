@@ -6,8 +6,8 @@ let missionsList = ["Rob A Bank", "Sell Illegals", "Rob A Store", "Trade Weapons
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("specialmission")
-        .setDescription("perform a special mission and earn or lose some amount of coins."),
+        .setName("crime")
+        .setDescription("perform a crime and earn or lose some amount of coins."),
 
     async execute(client, interaction) {
         const user = interaction.user;
@@ -60,7 +60,7 @@ module.exports = {
 
         let ChoiceEmbed = new EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle("Available Missions")
+            .setTitle(":detective: Available Crimes :detective:")
             .setDescription("Choose A Mission From The List Down Bellow")
             .setFooter({ text: "This Embed will stay valid for 60 seconds" })
 

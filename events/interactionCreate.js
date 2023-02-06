@@ -34,7 +34,8 @@ module.exports = {
                         wallet: 0,
                         jobs: {
                             work: 0,
-                            specialmission: 0,
+                            crime: 0,
+                            daily: 0,
                             loot: 0,
                             football: 0,
                         },
